@@ -1,10 +1,10 @@
-# Documentation Specialist Portfolio
+#### Documentation Specialist Portfolio
 
-#### Welcome to my personal portfolio website! 🌐  
-#### This site showcases my background, education, and sample technical documentations.
----
+Welcome!
 
-#### 📁 Repository Structure
+This portfolio showcases professional background, education and sample technical documentations.
+
+##### Repository Structure 
 ai-docs-specialist-pioneer.github.io/<br>
 ├── images/<br>
     ├── mockup.png<br>
