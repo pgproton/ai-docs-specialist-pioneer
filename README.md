@@ -2,7 +2,7 @@
 
 Welcome!
 
-This portfolio showcases professional background, education and sample technical documentations.
+This portfolio showcases my professional background, education and sample technical documentations.
 
 ##### Repository Structure 
 ai-docs-specialist-pioneer.github.io/<br>
