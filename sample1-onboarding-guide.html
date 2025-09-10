@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ACT-R Onboarding Guide</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.7;
+      color: #333;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9fb;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    h1 {
+      border-bottom: 3px solid #3498db;
+      padding-bottom: 10px;
+    }
+    h2 {
+      border-left: 5px solid #3498db;
+      padding-left: 15px;
+      margin-top: 30px;
+    }
+    code {
+      background-color: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 0.95em;
+      color: #d63384;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      border: 1px solid #e0e0e0;
+    }
+    pre code {
+      background-color: transparent;
+      color: #111;
+      padding: 0;
+    }
+    ul, ol {
+      margin-bottom: 16px;
+    }
+    blockquote {
+      border-left: 4px solid #bdc3c7;
+      padding-left: 16px;
+      margin-left: 0;
+      color: #555;
+      font-style: italic;
+    }
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #7f8c8d;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Onboarding and Reference Guide to the ACT-R Cognitive Architecture</h1>
+  <p><strong>Author:</strong> Athirah Nasrullah <br/>
+     <strong>Date:</strong> September 2025<br/>
+     <strong>Purpose:</strong> Onboarding documentation for new researchers joining the Cognitive Modeling Team at AI Research Lab</p>
+
+  <h2>1. Introduction</h2>
+  <p>The <strong>Adaptive Control of Thought—Rational (ACT-R)</strong> is a hybrid cognitive architecture that models human cognition by integrating discrete and continuous representations. Developed primarily at Carnegie Mellon University by John R. Anderson and colleagues, ACT-R provides a computational framework for simulating human behavior in complex tasks such as problem-solving, memory retrieval, language comprehension, and skill acquisition.</p>
+  
+  <p>This guide serves as an onboarding resource for new team members, offering a structured overview of ACT-R’s core components, syntax, and best practices for model development within an AI research context.</p>
+
+  <h2>2. Core Principles of ACT-R</h2>
+  <p>ACT-R is grounded in several foundational assumptions about human cognition:</p>
+  <ul>
+    <li><strong>Modularity:</strong> Cognition is decomposed into functionally specialized modules (e.g., declarative memory, procedural memory, visual, manual).</li>
+    <li><strong>Production System:</strong> Procedural knowledge is encoded as <em>productions</em>—if-then rules that fire when their conditions match the current state of buffers.</li>
+    <li><strong>Declarative Memory:</strong> Facts and experiences are stored as <em>chunks</em> in a long-term memory system with activation-based retrieval.</li>
+    <li><strong>Goal-Directed Behavior:</strong> Behavior emerges from the interaction of a goal buffer with other cognitive modules.</li>
+    <li><strong>Mathematical Precision:</strong> Subsymbolic processes (e.g., retrieval latency, decision noise) are modeled using mathematical equations grounded in cognitive psychology.</li>
+  </ul>
+
+  <h2>3. Key Components of ACT-R</h2>
+
+  <h3>3.1 Modules</h3>
+  <p>ACT-R consists of a set of interacting modules, each simulating a specific cognitive or perceptual-motor system. Each module communicates with the central system via dedicated <em>buffers</em>.</p>
+  <ul>
+    <li><strong>Declarative Memory Module:</strong> Stores factual knowledge as chunks. Retrieval is probabilistic and depends on activation levels.</li>
+    <li><strong>Goal Module:</strong> Maintains the current task goal. The goal buffer is central to guiding production rule selection.</li>
+    <li><strong>Procedural Module:</strong> Houses production rules that determine behavior.</li>
+    <li><strong>Visual Module:</strong> Interfaces with a simulated visual environment (e.g., a display or interface).</li>
+    <li><strong>Manual Module:</strong> Simulates motor actions such as keypresses or mouse movements.</li>
+  </ul>
+
+  <h3>3.2 Buffers</h3>
+  <p>Buffers act as temporary workspaces that hold the current content of a module. Productions read from and write to buffers to effect changes in the cognitive state.</p>
+  <blockquote>
+    For example, the visual buffer might contain information about a currently fixated object, while the goal buffer holds the current subgoal (e.g., "solve equation").
+  </blockquote>
+
+  <h3>3.3 Chunks and Chunk Types</h3>
+  <p>A <em>chunk</em> is a structured data unit representing a piece of declarative knowledge. Chunks are defined by a <em>chunk type</em>, which specifies its possible slots.</p>
+  <pre><code>(chunk-type task-step 
+   operation 
+   operands 
+   result)
+
+(chunk add-step 
+   isa task-step 
+   operation add 
+   operands (2 3) 
+   result 5)</code></pre>
+  <p>In this example, <code>task-step</code> is a chunk type with three slots. The chunk <code>add-step</code> instantiates this type.</p>
+
+  <h3>3.4 Productions</h3>
+  <p>Productions are the fundamental units of procedural knowledge. They follow the format:</p>
+  <pre><code>(P production-name
+   =buffer>
+     slot value
+   ==>
+   =buffer>
+     slot new-value
+   +module>
+     parameter value)</code></pre>
+  <p>Example: A production to initiate a calculation step:</p>
+  <pre><code>(P start-addition
+   =goal>
+     isa task-step
+     operation add
+   ==>
+   =goal>
+     status in-progress
+   +retrieval>
+     isa arithmetic-fact
+     problem =operands)</code></pre>
+
+  <h2>4. Getting Started with ACT-R Development</h2>
+
+  <h3>4.1 Installation</h3>
+  <p>ACT-R is implemented in Common Lisp. The latest version is available at <a href="https://github.com/CarletonCognitiveModelingLab/act-r">https://github.com/CarletonCognitiveModelingLab/act-r</a>.</p>
+  <ol>
+    <li>Install <strong>SBCL (Steel Bank Common Lisp)</strong> or another compatible Lisp implementation.</li>
+    <li>Clone the ACT-R repository.</li>
+    <li>Load ACT-R in Lisp: <code>(load "act-r/load-act-r.lisp")</code></li>
+  </ol>
+
+  <h3>4.2 Writing Your First Model</h3>
+  <p>Below is a minimal ACT-R model that simulates solving a simple arithmetic problem: 2 + 3.</p>
+  <pre><code>; Load ACT-R
+(load "act-r/load-act-r.lisp")
+
+; Define chunk types
+(chunk-type problem-operation op args answer)
+(chunk-type goal-state step status)
+
+; Define initial goal
+(goal-focus (isa goal-state step solve status start))
+
+; Add declarative knowledge
+(add-dm 
+ (fact1 isa arithmetic-fact problem (2 + 3) answer 5)
+ (start-goal isa goal-state step solve status start))
+
+; Production rules
+(P begin-solve
+   =goal>
+     isa goal-state
+     step solve
+     status start
+   ==>
+   =goal>
+     status retrieving
+   +retrieval>
+     isa arithmetic-fact
+     problem (2 + 3))
+
+(P succeed-retrieval
+   =goal>
+     isa goal-state
+     status retrieving
+   =retrieval>
+     isa arithmetic-fact
+     answer =ans
+   ==>
+   =goal>
+     status complete
+     result =ans
+   !output! (=ans))
+
+; Run the model
+(run 10)</code></pre>
+
+  <h2>5. Best Practices for ACT-R Modeling</h2>
+  <ul>
+    <li><strong>Modular Design:</strong> Break complex tasks into subgoals and model each as a separate production sequence.</li>
+    <li><strong>Parameter Justification:</strong> Tune subsymbolic parameters (e.g., activation, noise) based on empirical data or sensitivity analysis.</li>
+    <li><strong>Validation:</strong> Compare model predictions (e.g., response times, error rates) with human data.</li>
+    <li><strong>Documentation:</strong> Use comments liberally and maintain a model log to track design decisions.</li>
+  </ul>
+
+  <h2>6. Integration with AI Research</h2>
+  <p>At our lab, ACT-R is used to:</p>
+  <ul>
+    <li>Simulate human performance in human-AI collaboration tasks.</li>
+    <li>Generate synthetic behavioral data for training machine learning models.</li>
+    <li>Test cognitive hypotheses about reasoning under uncertainty.</li>
+    <li>Design intuitive interfaces by predicting user behavior.</li>
+  </ul>
+  <p>Recent projects have integrated ACT-R with reinforcement learning agents to compare human and artificial learning trajectories.</p>
+
+  <h2>7. Further Resources</h2>
+  <ul>
+    <li><a href="http://act-r.psy.cmu.edu/">Official ACT-R Website</a></li>
+    <li>Anderson, J. R. (2007). <em>How Can the Human Mind Occur in the Physical Universe?</em> Oxford University Press.</li>
+    <li>Tutorials and sample models in the <code>act-r/tutorial</code> directory.</li>
+    <li>ACT-R mailing list: <a href="mailto:actr-interest@lists.andrew.cmu.edu">actr-interest@lists.andrew.cmu.edu</a></li>
+  </ul>
+
+  <div class="footer">
+    © 2025 AI Research Lab. This document is intended for internal onboarding and educational use.
+  </div>
+</body>
+</html>
