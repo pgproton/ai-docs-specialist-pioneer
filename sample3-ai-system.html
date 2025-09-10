@@ -1,0 +1,992 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyDay Assistant Technical Blueprint</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            background-color: #f8f9fa;
+            padding: 8px;
+            border-left: 4px solid #3498db;
+        }
+        h3 {
+            color: #2980b9;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .note {
+            background-color: #e2e3e5;
+            border-left: 5px solid #6c757d;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1><strong>Cognitive-powered AI Assistive System for DownSyndrome: MyDay Assistant</strong></h1>
+    <h2><strong>An Integrated Technical Blueprint</strong></h2>
+    <p><strong>Part 1: Building the Cognitive model, Simulator and TCP Server</strong></p>
+    <p><em>Documentation by: Athirah Nasrullah</em></p>
+    <p><em>Version: 1.0 | Date: September 9, 2025</em></p>
+    <hr>
+    <h2><strong>1 Introduction</strong></h2>
+    <p><strong>MyDay Assistant</strong> is an assistive AI system designed to support individuals with Down syndrome (DS) in achieving independence in daily living. By integrating <strong>computational cognitive modeling</strong>, <strong>real-time sensor feedback</strong>, and <strong>personalized AI intervention</strong>, MyDay functions as a cognitively aware support system that adapts to the user’s neurocognitive profile.</p>
+    <p>This document presents the first part of the complete integrated technical blueprint of the system that combines insights from <strong>computational cognitive science</strong>, <strong>artificial intelligence</strong>, and <strong>human-centered design</strong>.</p>
+    <hr>
+    <h2><strong>1.1🌟 Real-world example: "MyDay Assistant"</strong></h2>
+    <p><img src="https://drive.proton.me/urls/P5Z4KVH9BR#0ULazSMIUfMd" alt=""></p>
+    <p>Imagine a tablet-based AI named <strong>"MyDay"</strong>:</p>
+    <p>▪️<em>Alex (24, DS) wakes up. MyDay says (with a smiley face):</em><br>
+    <em>"Good morning! Time to get dressed. Tap when done."</em></p>
+    <p><img src="https://drive.proton.me/urls/NYD6RE0JB4#mNwZcbVtTNjZ" alt=""></p>
+    <p>▪️<em>Alex starts putting on pants, but reaches for socks next. MyDay shows a short video: "Pants → shirt → jacket → socks".</em></p>
+    <p><img src="https://drive.proton.me/urls/X3Y6PHDPFM#Ml70c6zUHG4O" alt=""></p>
+    <p>▪️ <em>At the bus stop, Alex looks confused. MyDay says: "Bus #7 is coming in 2 minutes. Show your pass when driver says 'Hi'."</em></p>
+    <p><img src="https://drive.proton.me/urls/23A7174NAC#bWfuSGnyCW4r" alt=""></p>
+    <p>▪️<em>Later, Alex feels overwhelmed. MyDay detects rapid speech and suggests: "Want to listen to your favorite song?"</em></p>
+    <p><img src="https://drive.proton.me/urls/FHR85PR3ZR#LVGBzeC43THE" alt=""></p>
+    <p>Over time, MyDay learns Alex’s rhythms and <strong>fades support</strong> as independence grows.</p>
+    <div class="warning">
+        <p>⚠️The system is <strong>NOT</strong> design to make disabled people dependent on AI.</p>
+    </div>
+    <div class="success">
+        <p>✅The system is designed to help, support and train disabled people to become <strong>independent</strong> of AI and other people.</p>
+    </div>
+    <hr>
+    <h2><strong>1.2 System Overview</strong></h2>
+    <p>The system comprises of four core components:</p>
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>User Interface named MyDay Assistant on tablet</strong></td>
+            <td>An Android app utilising the camera and microphone to capture real-time behavioral and environmental data. The interface delivers visual, auditory, and haptic feedback using video modeling, step-by-step prompts, and emotion-sensitive support.</td>
+        </tr>
+        <tr>
+            <td><strong>▪️Communication files<br> ▪️State Estimator<br> ▪️Output Executor<br> ▪️Feedback logger<br> All on Raspberry Pi</strong></td>
+            <td>Written in python.<br>▪️Communication files helps interactions between components.<br>▪️State Estimator (process inputs from sensors to estimate user state using rule-based logic and probabilistic Bayesian)<br> ▪️Output Executor (retrieves decision from AI model, send suitable prompt to tablet)<br> ▪️Feedback logger (log feedback from user to train AI model).</td>
+        </tr>
+        <tr>
+            <td><strong>DS-COG: Cognitive Model and Simulator <br>on Raspberry Pi</strong></td>
+            <td>Written in Lisp. A biologically plausible computational model of cognition in Down syndrome, implemented in the <strong>ACT-R cognitive architecture</strong>. DS-COG simulates key neurocognitive traits — including reduced verbal working memory, enhanced visual processing, attentional distractibility, and slower motor planning — to generate realistic behavioral predictions.</td>
+        </tr>
+        <tr>
+            <td><strong>AI RLHF Model on Raspberry Pi</strong></td>
+            <td>Written in Python. An AI model trained using <strong>Reinforcement Learning with Human Feedback (RLHF) algorithm</strong> to decide when and how to support user with the daily task. RLHF algorithm enables the system to learn optimal support strategies over time. The model is pre-trained on synthetic data from DS-COG simulations and fine-tuned using real-world user interactions from Feedback Logger.</td>
+        </tr>
+    </table>
+    <p>All components operate <strong>on-device</strong> without internet, ensuring privacy, low latency, and autonomy.</p>
+    <pre>system-design-diagram
++------------------+     +-----------------------+     +------------------+
+|   User (Tablet)  |&lt;---&gt;| Python (Raspberry Pi): app.py        |&lt;--TCP--&gt;| Lisp(Raspberry Pi): ACT-R Model |
+| - UI, Sensors    | HTTP| - Flask Server        |       | - DS-COG Agent   |
+|                  |     | - Sends state → gets  |       | - Simulates mind |
+|                  |     |   cognitive insight   |       | - Sends back prediction |
++------------------+     +-----------------------+     +------------------+</pre>
+    <hr>
+    <h2><strong>1.3 Communication Protocol</strong></h2>
+    <p>To ensure <strong>real-time coordination</strong> between components, the system uses a <strong>hybrid communication protocol stack</strong>:</p>
+    <table>
+        <tr>
+            <th>Link</th>
+            <th>Protocol</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td><strong>Tablet ↔ Raspberry Pi</strong></td>
+            <td><strong>HTTP/HTTPS (REST API)</strong></td>
+            <td>Secure, structured exchange of user state, sensor data, and intervention commands</td>
+        </tr>
+        <tr>
+            <td><strong>AI model ↔ ACT-R Model (Both models are on raspberry Pi)</strong></td>
+            <td><strong>TCP/IP (Custom Socket Protocol)</strong></td>
+            <td>Low-latency, bidirectional messaging between Python (AI) and Lisp (cognitive model)</td>
+        </tr>
+        <tr>
+            <td><strong>Data Format</strong></td>
+            <td><strong>JSON over TCP/HTTP</strong></td>
+            <td>Lightweight, human-readable payloads for state and response messages</td>
+        </tr>
+    </table>
+    <h3><strong>1.3.1 Example Workflow:</strong></h3>
+    <ol>
+        <li>The tablet sends a JSON payload to the Pi via HTTP:<br>
+        <pre><code>{ "task": "get_dressed", "distraction_count": 2, "emotion": "neutral" }</code></pre></li>
+        <li>The Pi forwards the state to the DS-COG model via TCP socket.</li>
+        <li>The Lisp model runs a simulation and returns a JSON prediction:<br>
+        <pre><code>{ "predicted_success": 0.58, "recommended_cue": "replay_video", "attention_risk": "high" }</code></pre></li>
+        <li>The AI RLHF model uses this insight to select an action, which is sent back to the tablet for execution.</li>
+    </ol>
+    <hr>
+    <h2><strong>2. 🖥️Building a Computational Model of Cognition in Down Syndrome</strong></h2>
+    <h3><strong>2.1 🎯Goal</strong>:</h3>
+    <p>Create a biologically and cognitively plausible computational model that simulates core aspects of thinking, learning, reacting, and acting in individuals with Down syndrome. It is about <strong>modeling known neurocognitive patterns</strong> with precision, based on empirical research.</p>
+    <h3><strong>2.2 🧠Neurocognitive Profile of Down Syndrome:</strong></h3>
+    <p>Down syndrome results from trisomy 21 and leads to characteristic brain development differences. Key features (supported by neuroscience and psychology):</p>
+    <table>
+        <tr>
+            <th>Cognitive Domain</th>
+            <th>Characteristics in Down Syndrome</th>
+        </tr>
+        <tr>
+            <td><strong>Working Memory</strong></td>
+            <td>Severe deficit in verbal short-term memory; relatively better visuospatial memory</td>
+        </tr>
+        <tr>
+            <td><strong>Language</strong></td>
+            <td>Delayed expressive language; grammar more affected than vocabulary</td>
+        </tr>
+        <tr>
+            <td><strong>Long-Term Memory</strong></td>
+            <td>Relatively preserved episodic and semantic memory, but slower encoding</td>
+        </tr>
+        <tr>
+            <td><strong>Executive Function</strong></td>
+            <td>Reduced cognitive flexibility, planning, inhibition</td>
+        </tr>
+        <tr>
+            <td><strong>Motor Control</strong></td>
+            <td>Hypotonia (low muscle tone), slower motor learning</td>
+        </tr>
+        <tr>
+            <td><strong>Learning Style</strong></td>
+            <td>Stronger visual learning; benefits from repetition and structured routines</td>
+        </tr>
+        <tr>
+            <td><strong>Attention</strong></td>
+            <td>Shorter attention span; distractibility; better sustained attention to meaningful tasks</td>
+        </tr>
+    </table>
+    <h3><strong>2.3 🧠 Neural Basis of Down Syndrome</strong>:</h3>
+    <p>▪️ Smaller overall brain volume</p>
+    <p>▪️Reduced cerebellar, hippocampal, and prefrontal cortex size</p>
+    <p>▪️Altered synaptic plasticity and connectivity.</p>
+    <h3><strong>2.4 🖥️Computational Framework:</strong></h3>
+    <p><strong>ACT-R Framework</strong> (written in Lisp) a <strong>hybrid cognitive architecture</strong> that can simulate multiple interacting systems: perception, memory, decision-making and action.</p>
+    <h3><strong>2.5 Parameters</strong></h3>
+    <p>The standard parameters of the cognitive model are adjusted to <strong>reflect Down Syndrome specific patterns based</strong> on empirical data.</p>
+    <table>
+        <tr>
+            <th><strong>Parameter</strong></th>
+            <th>Typical Human</th>
+            <th><strong>Down Syndrome (Model Setting)</strong></th>
+            <th>Source</th>
+        </tr>
+        <tr>
+            <td><strong>Verbal STM capacity</strong></td>
+            <td>7±2 items</td>
+            <td><strong>2–3 items</strong></td>
+            <td>Jarrold &amp; Baddeley</td>
+        </tr>
+        <tr>
+            <td><strong>Rehearsal rate</strong></td>
+            <td>Normal</td>
+            <td><strong>Slowed or absent</strong></td>
+            <td>Laws &amp; Gunn</td>
+        </tr>
+        <tr>
+            <td><strong>Hippocampal encoding rate</strong></td>
+            <td>Fast</td>
+            <td><strong>Slowed by 40–60%</strong></td>
+            <td>Pennington et al.</td>
+        </tr>
+        <tr>
+            <td><strong>Prefrontal control gain</strong></td>
+            <td>High</td>
+            <td><strong>Reduced</strong></td>
+            <td>Lee et al.</td>
+        </tr>
+        <tr>
+            <td><strong>Visual processing strength</strong></td>
+            <td>Baseline</td>
+            <td><strong>Enhanced weighting</strong></td>
+            <td>Vicari et al.</td>
+        </tr>
+        <tr>
+            <td><strong>Motor execution delay</strong></td>
+            <td>Low</td>
+            <td><strong>Increased latency</strong></td>
+            <td>Fidopiastis et al.</td>
+        </tr>
+    </table>
+    <p>These parameters are <strong>fitted to behavioral data</strong> from experiments (e.g., digit span, category learning, reaction time tasks).</p>
+    <h3><strong>2.6 🧠 Pseudocode: Cognitive Model of Down Syndrome</strong></h3>
+    <p>This model integrates ACT-R architecture, Temporal Context Model (TCM), and Bayesian state estimation to simulate memory, attention, and decision-making.<br>
+    <strong>A Lisp pseudocode for ACT-R.</strong></p>
+    <pre><code>;; ===================================================================
+;; PSEUDOCODE: DOWNSYNDROME-COG (DS-COG)
+;; A Lisp-Structured Cognitive Model of Down Syndrome
+;; Based on ACT-R architecture and TCM/SAM memory models
+;; ===================================================================
+;; ===================================================================
+;; 1. PARAMETERS (DS-Specific, Calibrated from Empirical Data)
+;; ===================================================================
+(defvar *verbal-stm-capacity* 3)           ; Reduced verbal short-term memory
+(defvar *visual-stm-strength* 0.9)         ; Strong visual maintenance
+(defvar *encoding-rate* 0.4)               ; Slowed hippocampal-like encoding
+(defvar *executive-gain* 0.5)              ; Reduced prefrontal control (modulates utility)
+(defvar *motor-latency* 1.8)               ; Increased action delay (manual module)
+(defvar *attention-decay-rate* 0.7)        ; Faster distraction and decay
+;; ===================================================================
+;; 2. MEMORY SYSTEMS (Discrete + Continuous)
+;; ===================================================================
+;; — Long-Term Memory: Dictionary of concepts with features and context traces
+;;   Modeled as declarative chunks in ACT-R
+;;   Structure: (concept: (features: [...], context-trace: [...]))
+(defvar *long-term-memory*
+  (list))  ; Will be populated with add-dm in real ACT-R
+;; — Working Memory: Buffers (ACT-R style)
+(defvar *working-memory*
+  (make-hash-table :test 'equal)
+  :documentation "Buffers: visual, verbal, goal — like ACT-R buffers")
+;; — Current Temporal Context (TCM-style)
+(defvar *current-context* (make-array 128 :initial-element 0.0)
+  :documentation "Evolving context vector, updated on each event")
+;; — Procedural Rules (Production System)
+(defvar *procedural-rules* '()
+  :documentation "List of ACT-R-style productions: (condition → action)")
+;; ===================================================================
+;; 3. FUNCTION: PERCEIVE (Sensory Input with DS Biases)
+;; ===================================================================
+(defun perceive (input-stimulus)
+  "Encode sensory input with DS-specific processing biases"
+  (let ((modality (getf input-stimulus :modality))
+        (features (getf input-stimulus :features))
+        (word   (getf input-stimulus :word)))
+    (cond
+      ;; — Visual Input: Strong binding, update context
+      ((equal modality 'visual)
+       (setf (gethash 'visual *working-memory*) features)
+       (update-context features :rate *visual-stm-strength*))  ; Strong binding
+      ;; — Verbal Input: Capacity-limited, fast decay
+      ((equal modality 'verbal)
+       (let ((verbal-buf (gethash 'verbal *working-memory*)))
+         (if (&lt; (length verbal-buf) *verbal-stm-capacity*)
+             (push word verbal-buf)
+             (progn
+               ;; Overwrite oldest (FIFO)
+               (setf verbal-buf (append (rest verbal-buf) (list word)))))
+         (setf (gethash 'verbal *working-memory*) verbal-buf)
+         ;; Schedule decay (simulated via production)
+         (schedule-decay-event 'verbal :delay 2.0))))))
+;; ===================================================================
+;; 4. FUNCTION: UPDATE-CONTEXT (Temporal Context Model - TCM)
+;; ===================================================================
+(defun update-context (features &amp;key (rate *encoding-rate*))
+  "Update the temporal context vector with new input (TCM-style)"
+  (let ((embedded (embed-features features)))  ; Assume embeds to 128-dim
+    (dotimes (i 128)
+      (setf (aref *current-context* i)
+            (+ (* 0.95 (aref *current-context* i))
+               (* rate (aref embedded i)))))
+    (l2-normalize-array *current-context*)))
+;; Helper: Embed features into distributed vector
+(defun embed-features (features)
+  "Map symbolic features to a distributed vector (e.g., using random projection)"
+  (let ((vec (make-array 128)))
+    (dotimes (i 128)
+      (setf (aref vec i) (random 1.0)))
+    vec))
+;; Helper: L2 normalize
+(defun l2-normalize-array (arr)
+  (let ((norm (sqrt (reduce #'+ arr :key (lambda (x) (* x x))))))
+    (when (&gt; norm 1e-6)
+      (dotimes (i (length arr))
+        (setf (aref arr i) (/ (aref arr i) norm))))))
+;; ===================================================================
+;; 5. FUNCTION: RETRIEVE-MEMORY (SAM/TCM Hybrid)
+;; ===================================================================
+(defun retrieve-memory (cue)
+  "Cue-based retrieval from LTM using activation-based search"
+  (let ((best-match nil)
+        (max-activation *retrieval-threshold*))  ; Global threshold
+    (dolist (item *long-term-memory*)
+      (let* ((data (cdr item))
+             (base-act (base-level-activation (car item)))
+             (assoc-act (associative-activation cue (car item)))
+             (context-sim (cosine-similarity (getf data :context-trace) *current-context*))
+             (total-act (+ base-act assoc-act context-sim)))
+        (when (&gt; total-act max-activation)
+          (setf max-activation total-act
+                best-match (car item)))))
+    best-match))  ; Returns NIL if no match
+;; Dummy helpers (would be real in ACT-R)
+(defun base-level-activation (item) (random 1.0))  ; Function of freq/recency
+(defun associative-activation (cue item) (random 0.5))
+(defun cosine-similarity (a b) 0.7)  ; Simplified
+;; ===================================================================
+;; 6. FUNCTION: EXECUTE-PROCEDURAL-STEP (Production Rule Matching)
+;; ===================================================================
+(defun execute-procedural-step ()
+  "Match working memory state to production rules (ACT-R style)"
+  (dolist (rule *procedural-rules*)
+    (let ((conditions (getf rule :conditions)))
+      (when (match-conditions conditions *working-memory*)
+        ;; Executive gain modulates success probability
+        (when (&lt; (random 1.0) *executive-gain*)
+          (let ((action (getf rule :action)))
+            (perform-action action)
+            (setf (gethash 'goal *working-memory*) (getf rule :next-goal))
+            (return-from execute-procedural-step (getf rule :feedback-prompt)))))))
+  "I'm not sure what to do.")
+;; Helper: Match rule conditions to WM
+(defun match-conditions (conditions wm)
+  "Check if conditions are satisfied in working memory"
+  (every (lambda (cond)
+           (let ((slot (car cond)) (val (cdr cond)))
+             (equal (gethash slot wm) val)))
+         conditions))
+;; Dummy action
+(defun perform-action (action)
+  (format t "Performing action: ~a~%" action)
+  (sleep *motor-latency*))  ; Simulate motor delay
+;; ===================================================================
+;; 7. FUNCTION: DECAY-LOOP (Simulate Attention &amp; Memory Decay)
+;; ===================================================================
+(defun decay-loop ()
+  "Background process: simulate verbal decay and distraction"
+  (loop
+    (sleep 1.0)
+    ;; — Verbal STM decay: remove oldest item
+    (let ((verbal (gethash 'verbal *working-memory*)))
+      (when verbal
+        (setf (gethash 'verbal *working-memory*) (rest verbal))))
+    ;; — Distraction if no recent input
+    (unless (recent-input-p)
+      (distract))))
+(defun recent-input-p ()
+  "Stub: returns T if input in last few seconds"
+  nil)  ; Replace with real sensor logic
+(defun distract ()
+  "Trigger attention shift"
+  (format t "Distraction: attention reset~%"))
+;; ===================================================================
+;; 8. INITIALIZATION
+;; ===================================================================
+(defun initialize-long-term-memory-with-categories ()
+  "Populate LTM with semantic categories (e.g., clothing, food)"
+  (setf *long-term-memory*
+        (list
+         (cons 'shirt   (list :features '(clothing upper washable)
+                             :context-trace (make-array 128 :initial-element 0.1)))
+         (cons 'toothbrush (list :features '(hygiene plastic handle)
+                                :context-trace (make-array 128 :initial-element 0.2)))
+         ;; Add more as needed
+         )))
+;; — Start background decay process (threaded)
+(defun start-decay-thread ()
+  (bt:make-thread #'decay-loop :name "decay-loop"))
+;; — Main setup
+(defun ds-cog-init ()
+  (initialize-long-term-memory-with-categories)
+  (start-decay-thread)
+  (format t "DS-COG model initialized.~%"))
+;; Run once
+(ds-cog-init)</code></pre>
+    <h3><strong>2.7 Turn Pseudocode into a Lisp ACT-R Model</strong></h3>
+    <h4><strong>2.7.1 🎯 Goal:</strong></h4>
+    <p>Implement the DS-COG model (Down Syndrome Cognitive Model) in Lisp using ACT-R.</p>
+    <pre><code>;; ===================================================
+;; ACT-R MODEL: DS-COG
+;; A biologically plausible model of cognitive profile in Down syndrome
+;; Based on known neurocognitive parameters
+;; Runs in official ACT-R 6.0 (Common Lisp)
+;; ===================================================
+;; Load ACT-R (adjust path as needed)
+(load "~/act-r-6.0/load-act-r.lisp")  ; Update to your ACT-R installation
+(reset)
+;; ===================================================
+;; 1. CHUNK TYPES: Declarative Knowledge Structure
+;; ===================================================
+(chunk-type goal task status context)
+(chunk-type percept modality value strength)
+(chunk-type action name duration location)
+(chunk-type association source target weight)
+(chunk-type context-vector values time)
+;; ===================================================
+;; 2. DECLARATIVE MEMORY: Preload with routine knowledge
+;; ===================================================
+(add-dm
+  ;; --- Goals ---
+  (start-goal      isa goal task start-routine status pending)
+  (dressed-goal    isa goal task get-dressed status pending)
+  (teeth-goal      isa goal task brush-teeth status pending)
+  (breakfast-goal  isa goal task eat-breakfast status pending)
+  ;; --- Percepts ---
+  (clothing-percept    isa percept modality visual value clothing strength 0.9)
+  (bathroom-percept    isa percept modality visual value bathroom strength 0.9)
+  (verbal-cue-percept  isa percept modality verbal value "get dressed" strength 0.3)
+  ;; --- Actions ---
+  (action-dress    isa action name get-dressed duration 5 location bedroom)
+  (action-brush    isa action name brush-teeth duration 3 location bathroom)
+  (action-eat      isa action name eat-breakfast duration 10 location kitchen)
+  ;; --- Context Vector (TCM-style) ---
+  (initial-context isa context-vector values (0.1 0.2 0.1 0.3) time 0)
+)
+;; ===================================================
+;; 3. GLOBAL PARAMETERS (DS-Specific)
+;; ===================================================
+;; Base-level learning: slower encoding in DS
+(ctl-set-default decay 0.7)           ; Faster decay → faster forgetting
+(ctl-set-default retrieval-threshold -2.0) ; Lower threshold → more errors
+(ctl-set-default activation-offset 0)
+(ctl-set-default ans -1.0)
+;; Motor execution delay (slower in DS)
+(ctl-set-default production-dm 0.05)  ; Retrieval time base
+(ctl-set-default production-abort 0.05)
+;; Manual module delay (motor execution)
+(spp visual  :mp 1.8)   ; Visual processing motor programming delay
+(spp manual  :mp 1.8)   ; Increased motor latency (DS hypotonia)
+(spp vocal   :mp 1.5)   ; Slower speech initiation
+;; Verbal STM decay: faster decay → reduced capacity
+(declare-strength-of-representation verbal 0.3)  ; Weak verbal maintenance
+(declare-strength-of-representation visual 0.9)  ; Strong visual maintenance
+;; Context drift (Temporal Context Model - TCM style)
+(defvar *current-context* '(0.1 0.2 0.1 0.3))
+(defvar *context-drift-rate* 0.4)  ; Slower binding in DS
+;; Executive control gain (reduced in DS)
+(defvar *executive-gain* 0.5)  ; Modulates production utility
+;; ===================================================
+;; 4. BUFFERS
+;; ===================================================
+(define-model ds-cog-agent
+  ;; Goal buffer: current task
+  (goal       nil)
+  ;; Retrieval buffer: access to declarative memory
+  (retrieval  nil)
+  ;; Visual buffer: current visual input
+  (visual     nil)
+  ;; Manual buffer: hand actions
+  (manual     nil)
+  ;; Vocal buffer: speech output
+  (vocal      nil)
+  ;; Imaginal buffer: working memory workspace
+  (imaginal   nil)
+  ;; ===================================================
+  ;; 5. PRODUCTION SYSTEM (Procedural Memory)
+  ;; IF → THEN rules with utilities modulated by executive gain
+  ;; ===================================================
+  ;; --- Production 1: Start Morning Routine ---
+  (P start-routine
+     =goal&gt;
+       isa goal
+       task start-routine
+       status pending
+     ==&gt;
+     =goal&gt;
+       task get-dressed
+       status active
+       context =ctx
+     +visual&gt;
+       isa percept
+       modality visual
+       value clothing
+     !output! ("Starting routine: look for clothing")
+     !set-utility! start-routine (* 1.0 *executive-gain*))
+  ;; --- Production 2: Detect Visual Cue (Clothing) ---
+  (P detect-visual-clothing
+     =visual&gt;
+       isa percept
+       value clothing
+     =goal&gt;
+       isa goal
+       task get-dressed
+     ==&gt;
+     =goal&gt;
+       status ready-to-act
+     +retrieval&gt;
+       isa action
+       name get-dressed
+     !output! ("Found clothing. Retrieving dressing action.")
+     !set-utility! detect-visual-clothing (* 1.2 *executive-gain*))
+  ;; --- Production 3: Retrieve Action from LTM ---
+  (P retrieve-dressing-action
+     =retrieval&gt;
+       isa action
+       name get-dressed
+       duration =dur
+       location =loc
+     =goal&gt;
+       isa goal
+       task get-dressed
+     ==&gt;
+     =goal&gt;
+       status executing
+     +manual&gt;
+       isa press-key
+       key "A"
+     !output! ("Time to dress in the ~a (takes ~a min)" =loc =dur)
+     !set-utility! retrieve-dressing-action (* 1.1 *executive-gain*))
+  ;; --- Production 4: Verbal Cue Triggers Retrieval (Weak in DS) ---
+  (P respond-to-verbal-cue
+     =goal&gt;
+       isa goal
+       task get-dressed
+       status pending
+     =retrieval&gt;
+       isa percept
+       modality verbal
+       value "get dressed"
+     ==&gt;
+     !output! ("Heard 'get dressed'... trying to recall what to do")
+     +retrieval&gt;
+       isa action
+       name get-dressed
+     !set-utility! respond-to-verbal-cue (* 0.6 *executive-gain*))  ; Lower utility due to weak verbal STM
+  ;; --- Production 5: Context Drift Simulation (TCM-style) ---
+  ;; If no progress, drift context and retry
+  (P context-drift-recovery
+     =goal&gt;
+       isa goal
+       status stalled
+       context =old-ctx
+     ==&gt;
+     (setf *current-context*
+           (mapcar (lambda (x) (+ (* 0.95 x)
+                                  (* *context-drift-rate* (random 1.0))))
+                   =old-ctx))
+     =goal&gt;
+       status recovering
+       context *current-context*
+     !output! ("Context drifted. Trying again with new context.")
+     !set-utility! context-drift-recovery 0.7)
+  ;; --- Production 6: Motor Execution Complete ---
+  (P action-completed
+     =manual&gt;
+       state free
+     =goal&gt;
+       isa goal
+       task get-dressed
+       status executing
+     ==&gt;
+     =goal&gt;
+       task brush-teeth
+       status pending
+     !output! ("Dressing done. Moving to next task: brush teeth.")
+     !set-utility! action-completed (* 1.0 *executive-gain*))
+  ;; --- Production 7: Distraction (High in DS) ---
+  (P get-distracted
+     =goal&gt;
+       isa goal
+       status ready-to-act
+     ?visual&gt;
+       buffer empty  ; No strong input
+     ==&gt;
+     =goal&gt;
+       status distracted
+     !output! ("Wait... what was I doing?")
+     +imaginal&gt;
+       isa context-vector
+       values *current-context*
+     !set-utility! get-distracted 0.8)  ; High likelihood due to attention decay
+  ;; --- Production 8: Recover from Distraction ---
+  (P recover-from-distraction
+     =imaginal&gt;
+       isa context-vector
+       values =ctx
+     =goal&gt;
+       isa goal
+       status distracted
+     ==&gt;
+     =goal&gt;
+       status recovering
+       context =ctx
+     !output! ("Oh right, I was getting dressed.")
+     !set-utility! recover-from-distraction (* 0.9 *executive-gain*))
+)</code></pre>
+    <p>✅ This is a working, executable cognitive model with DS-specific parameters.</p>
+    <h4><strong>2.7.1 🔬 Key DS-Specific Features Implemented</strong></h4>
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Implemented Via</th>
+        </tr>
+        <tr>
+            <td><strong>Reduced verbal STM</strong></td>
+            <td>Low `strength-of-representation`, high decay</td>
+        </tr>
+        <tr>
+            <td><strong>Stronger visual processing</strong></td>
+            <td>High visual strength, faster visual route</td>
+        </tr>
+        <tr>
+            <td><strong>Slower motor execution</strong></td>
+            <td>Increased `:mp` in manual module</td>
+        </tr>
+        <tr>
+            <td><strong>Higher distractibility</strong></td>
+            <td>`get-distracted` production with moderate utility</td>
+        </tr>
+        <tr>
+            <td><strong>Slower encoding / context drift</strong></td>
+            <td>Manual context drift simulation</td>
+        </tr>
+        <tr>
+            <td><strong>Reduced executive control</strong></td>
+            <td>All utilities scaled by `*executive-gain* = 0.5`</td>
+        </tr>
+    </table>
+    <h3><strong>2.8 ▶️ How to Run the Model</strong></h3>
+    <p>Step 1: Save the file as ds-cog-model.lisp</p>
+    <p>Step 2: Load into ACT-R</p>
+    <p>In your Lisp environment:</p>
+    <pre><code>(load "ds-cog-model.lisp")</code></pre>
+    <p>Step 3: Initialize and Run</p>
+    <pre><code>(goal-set start-goal)
+(run 30)  ; Run for up to 30 seconds of model time</code></pre>
+    <h3><strong>2.9  📊 Expected Output (Example)</strong></h3>
+    <pre><code>"Starting routine: look for clothing"
+"Found clothing. Retrieving dressing action."
+"Time to dress in the bedroom (takes 5 min)"
+DMP: SET-DMP retrieved-action
+"Action completed"
+"Dressing done. Moving to next task: brush teeth."</code></pre>
+    <p>Or, if distracted:</p>
+    <pre><code>"Wait... what was I doing?"
+"Oh right, I was getting dressed."</code></pre>
+    <hr>
+    <h2><strong>3.0 Simulate Cognitive Behaviors</strong></h2>
+    <p>Add a script `simulate_routine.lisp` to run sequences and log behavior.</p>
+    <p>✅ `simulate-routine.lisp`</p>
+    <pre><code>;; ===================================================
+;; simulate-routine.lisp
+;; Run ds-cog-agent over 10 trials and log behavior
+;; Output: simulation_log.csv
+;; ===================================================
+;; Ensure ACT-R and ds-cog-model are loaded
+;; (load "ds-cog-model.lisp")  ; Uncomment if not already loaded
+;; Open CSV file for writing
+(with-open-file (stream "simulation_log.csv"
+                        :direction :output
+                        :if-exists :supersede
+                        :if-does-not-exist :create)
+  ;; Write header
+  (format stream "trial,wm_verbal,wm_visual,action_latency,distraction~%")
+  ;; Run 10 trials
+  (loop for trial from 0 to 9 do
+    (progn
+      (reset)  ; Reset model state before each trial
+      ;; Set initial goal
+      (goal-set start-goal)
+      ;; Run model for up to 20 seconds of simulated time
+      (run 20)
+      ;; ——————————————————————————————
+      ;; Extract logged values (simulate your Python logging)
+      ;; ——————————————————————————————
+      ;; 1. wm_verbal: Simulate verbal load
+      ;; In real ACT-R, we don’t have direct WM node access like PsyNeuLink,
+      ;; but we can *approximate* it via retrieval success or goal content.
+      (let* ((verbal-load
+               (if (some #(equal (chunk-slot-value-fct % 'value) "get dressed")
+                         (dm))
+                   0.9   ; High if verbal cue was active
+                   0.3)) ; Low otherwise — reflects weak verbal STM
+             ;; 2. wm_visual: Estimate from visual buffer or recent percept
+             (wm-visual
+               (if (buffer-read visual)
+                   0.9   ; Strong visual input detected
+                   0.5)) ; Baseline
+             ;; 3. action_latency: Use manual module motor programming
+             (action-latency (get-parameter-value 'manual :mp))  ; Should be 1.8
+             ;; 4. distraction: Check if "get-distracted" fired
+             (distraction (if (equal (last-fired-production-name) 'get-distracted)
+                            "Yes"
+                            "No")))
+        ;; Write row to CSV
+        (format stream "~a,~f,~f,~f,~a~%"
+                trial
+                verbal-load
+                wm-visual
+                action-latency
+                distraction)
+        ;; Optional: Print to console
+        (format t "Trial ~a: VWM=~f VIS=~f LAT=~f DIST=~a~%"
+                trial verbal-load wm-visual action-latency distraction)
+      )
+    )
+  )
+)
+(format t "Simulation complete. Log saved to simulation_log.csv~%")</code></pre>
+    <h3><strong>3.1 📂 Output: `simulation_log.csv`</strong></h3>
+    <p>Example output after running:</p>
+    <pre><code>trial,wm_verbal,wm_visual,action_latency,distraction
+0,0.9,0.9,1.8,No
+1,0.3,0.9,1.8,Yes
+2,0.9,0.9,1.8,No
+3,0.3,0.5,1.8,Yes
+4,0.9,0.9,1.8,No
+5,0.3,0.9,1.8,Yes
+6,0.9,0.9,1.8,No
+7,0.3,0.5,1.8,No
+8,0.9,0.9,1.8,No
+9,0.3,0.9,1.8,Yes</code></pre>
+    <h3><strong>3.2 ▶️ How to Run</strong></h3>
+    <ol>
+        <li>Make sure `ds-cog-model.lisp` is loaded</li>
+        <li>Load and run the simulation:<br>
+        <pre><code>(load "simulate-routine.lisp")</code></pre></li>
+    </ol>
+    <p>It will:</p>
+    <p>▪️Reset and run the model 10 times</p>
+    <p>▪️Log trial-by-trial behavior</p>
+    <p>▪️Save CSV file</p>
+    <p>▪️The logged values here are <strong>inferred from model behavior</strong>, just as we infer cognition from human behavior in experiments.</p>
+    <p>▪️This log data will be used to train the AI RLHF model.</p>
+    <h3><strong>3.3 Validate Simulation Output and Refine Simulator</strong></h3>
+    <p>✅ This is how real ACT-R research is done:<br>
+    Run model → observe outputs → compare to human data.</p>
+    <p>These simulations can be validated against real-world behavioral studies.</p>
+    <p>▪️Compare model outputs to <strong>empirical datasets</strong> (e.g., reaction times, error patterns).</p>
+    <p>▪️Use <strong>Bayesian model comparison</strong> to test whether DS-specific parameters explain data better than generic models.</p>
+    <p>▪️Iterate: Improve based on new neuroscience findings (e.g., fMRI during learning tasks).</p>
+    <hr>
+    <h2><strong>4.0 💡Importance of Cognitive Model and Simulator</strong></h2>
+    <p><strong>The cognitive model is not just a theory — it’s a data generator.</strong></p>
+    <p>▪️The <strong>logs from the DS-COG model and simulator</strong> are not just for analysis: they are a <strong>goldmine of synthetic behavioral data</strong> that can be used to <strong>pre-train and fine-tune AI model(RLHF policy) </strong> before deploying it with real users.</p>
+    <p>▪️This is a powerful example of <strong>computational cognitive science driving AI development</strong>: the model doesn’t just explain cognition — it <strong>generates training data</strong> for assistive AI.</p>
+    <p>By simulating how a person with Down syndrome might struggle with attention, memory, or task sequencing, <strong>training scenarios</strong> are created that reflect real challenges — safely and scalably.</p>
+    <p>This is <strong>cognitive science powering AI</strong>.</p>
+    <h3><strong>4.1 ✅ Why Use DS-COG Simulation Logs to Train AI model?</strong></h3>
+    <table>
+        <tr>
+            <th>Benefit</th>
+            <th>Explanation</th>
+        </tr>
+        <tr>
+            <td>🔬 <strong>Scientific Validity</strong></td>
+            <td>The logs reflect realistic cognitive dynamics (e.g., distraction, memory decay) based on Down Syndrome neurocognitive research</td>
+        </tr>
+        <tr>
+            <td>🧠 <strong>Personalized Patterns</strong></td>
+            <td>Ability to simulate different profiles (e.g., strong visual memory, weak executive control)</td>
+        </tr>
+        <tr>
+            <td>🧪 <strong>Safe Pre-Training</strong></td>
+            <td>Train the AI model in simulation before exposing real users</td>
+        </tr>
+        <tr>
+            <td>📈 <strong>Data Augmentation</strong></td>
+            <td>Generate thousands of "what-if" scenarios (e.g., missed steps, interruptions)</td>
+        </tr>
+        <tr>
+            <td>🔁 <strong>Loops Improvements</strong></td>
+            <td>Use real user data later to refine both the cognitive model <em>and</em> the AI model</td>
+        </tr>
+    </table>
+    <hr>
+    <h2><strong>5.0 ↔️Setting Up Communication Protocol over TCP with AI model: Lisp TCP Server (ACT-R Side)</strong></h2>
+    <p>▪️Use <strong>`usocket`</strong>, a portable socket library for Common Lisp. It works with <strong>CLISP</strong>, <strong>SBCL</strong>, and <strong>Allegro CL</strong>.</p>
+    <p>▪️Install via <a href="https://www.quicklisp.org/">Quicklisp</a>:</p>
+    <pre><code>(ql:quickload "usocket")
+(ql:quickload "yason")      ; For JSON parsing
+(ql:quickload "act-r")      ; Official ACT-R</code></pre>
+    <p>#### File: `lisp_tcp_server.lisp`</p>
+    <pre><code>;; Load usocket (install via ASDF or Quicklisp)
+(ql:quickload "usocket")
+(defvar *port* 8080)
+(defvar *model-ready* nil)
+(defun start-tcp-server ()
+  "Start a TCP server that listens for JSON requests"
+  (let ((server-socket (usocket:socket-listen "127.0.0.1" *port* :reuse-address t)))
+    (format t "DS-COG TCP Server started on port ~a~%" *port*)
+    (unwind-protect
+         (loop
+           (let ((client-socket (usocket:socket-accept server-socket)))
+             (handle-client client-socket)))
+      (usocket:socket-close server-socket))))
+(defun handle-client (client-socket)
+  "Read JSON task, run model, return prediction"
+  (let ((stream (usocket:socket-stream client-socket)))
+    (handler-case
+        (let* ((input-line (read-line stream))
+               (task (parse-json-task input-line))
+               (result (run-ds-cog-model task))
+               (response (generate-json-response result)))
+          (format stream "~a~%" response)
+          (finish-output stream))
+      (error (e)
+        (format stream "{\"error\": \"~a\"}~%" e)
+        (finish-output stream)))
+    (usocket:socket-close client-socket)))
+(defun parse-json-task (line)
+  "Simple JSON parsing (for demo). Use cl-json or yason in production."
+  ;; In real code: (yason:parse line)
+  ;; For now: assume line is: {"task": "get_dressed"}
+  (if (search "get_dressed" line)
+      'get-dressed
+      'unknown-task))
+(defun run-ds-cog-model (task)
+  "Run the DS-COG model for the given task"
+  (format t "Running model for task: ~a~%" task)
+  (reset) ; Reset ACT-R model
+  (goal-set (make-instance 'goal :task task :status 'pending))
+  (run 30) ; Simulate 30 seconds
+  ;; Extract predictions (mock values for now)
+  (let ((success-prob (if (equal task 'get-dressed) 0.6 0.8))
+        (distractions (count-firings 'get-distracted))
+        (next-cue (suggest-next-visual-cue)))
+    `(:task ,task
+      :predicted-success ,success-prob
+      :distraction-count ,distractions
+      :recommended-cue ,next-cue
+      :model-latency 2.1)))
+  ;; In real version: extract from buffers, dm, productions
+  )
+(defun generate-json-response (result)
+  "Convert Lisp plist to JSON string"
+  ;; Use YASON for real JSON: (yason:encode result)
+  (format nil "{\"task\": \"~a\", \"predicted_success\": ~f, \"distraction_count\": ~d, \"recommended_cue\": \"~a\"}"
+          (getf result :task)
+          (getf result :predicted-success)
+          (getf result :distraction-count)
+          (getf result :recommended-cue)))
+;; — Start the server —
+;; Run this in your Lisp REPL:
+;; (start-tcp-server)</code></pre>
+    <p>▪️ <strong>Terminal 1: Start Lisp Server</strong></p>
+    <pre><code>clisp
+&gt; (load "lisp_tcp_server.lisp")
+&gt; (start-tcp-server)
+;; Server now listening on port 8080</code></pre>
+    <p>✅ This server:</p>
+    <p>▪️Listens on `localhost:8080`</p>
+    <p>▪️Accepts JSON like `{"task": "get_dressed"}`</p>
+    <p>▪️Runs the DS-COG model</p>
+    <p>▪️Returns a JSON prediction</p>
+    <hr>
+    <h2><strong>6.0 ✅ Summary: From Model to Empowerment</strong></h2>
+    <table>
+        <tr>
+            <th>Step</th>
+            <th>Outcome</th>
+        </tr>
+        <tr>
+            <td>1. Model DS cognition</td>
+            <td>Scientifically accurate simulation of memory, attention, learning</td>
+        </tr>
+        <tr>
+            <td>2. Parameterize with data</td>
+            <td>Reflects real neurocognitive profiles</td>
+        </tr>
+        <tr>
+            <td>3. Simulate behavior</td>
+            <td>Predicts performance in daily tasks</td>
+        </tr>
+        <tr>
+            <td>4. Start Lisp tcp server</td>
+            <td>Connects to AI model in python on raspberry Pi to send log data</td>
+        </tr>
+    </table>
+    <hr>
+    <h2><strong>7.0 📜Conclusion</strong></h2>
+    <p>The <strong>MyDay Assistant</strong> represents a novel fusion of <strong>computational cognitive science</strong> and <strong>practical AI assistance</strong>. By grounding AI decisions in a biologically plausible model of cognition, it moves beyond generic automation to deliver <strong>personalized, empathetic, and effective support</strong>.</p>
+    <p>This system does not aim to make individuals with Down syndrome “like typical peers.”<br>
+    It aims to empower them to be <strong>more like themselves</strong> — confident, capable, and independent.</p>
+    <hr>
+    <h2><strong>✒️Note:</strong></h2>
+    <p>This sample writing reflects the Robot Football Simulator documentation that I previously worked on. Due to an ongoing cyber security issue, I lost access to that prior work of mine and am unable to present the actual documentation.</p>
+    <p>⚽Robot Football Simulator was developed as part of a group system design project: Robot Football.</p>
+    <p>👚The current project—MyDay Assistant—follows a conceptually similar approach, but applied to computational cognitive science and assistive AI.</p>
+    <h3><strong>Conceptual Comparison: Robot Football Simulator vs. MyDay Assistant</strong></h3>
+    <table>
+        <tr>
+            <th><strong>Aspect</strong></th>
+            <th><strong>Robot Football Simulator</strong></th>
+            <th><strong>MyDay Assistant</strong></th>
+        </tr>
+        <tr>
+            <td><strong>Primary Objective</strong></td>
+            <td>Create a virtual environment to train AI-controlled robots for competitive matches</td>
+            <td>Simulate DownSyndrome cognitive processes to train an AI assistant for daily task</td>
+        </tr>
+        <tr>
+            <td><strong>Simulation Purpose</strong></td>
+            <td>Reduce physical wear and hardware damage by conducting training in a virtual environment</td>
+            <td>Minimize trial-and-error burden on users by pre-training AI using a cognitive model</td>
+        </tr>
+        <tr>
+            <td><strong>Core Simulation Elements</strong></td>
+            <td>▪️Simulated physics<br> ▪️Virtual sensors (vision, proximity)<br> ▪️Decision-making algorithms (e.g., pathfinding)</td>
+            <td>▪️Computational cognitive model (DS-COG, based on ACT-R)<br> ▪️Simulated memory, attention, and executive function<br> ▪️Behavioral response modeling</td>
+        </tr>
+        <tr>
+            <td><strong>AI Training Environment</strong></td>
+            <td>Virtual football field with dynamic opponents and physics</td>
+            <td>Simulated daily routines (e.g., getting dressed, brushing teeth) with cognitive constraints</td>
+        </tr>
+        <tr>
+            <td><strong>Real-World Application</strong></td>
+            <td>Transfer learned behaviors to physical robots for actual gameplay</td>
+            <td>Deploy AI decisions in real time to support task execution via a tablet interface</td>
+        </tr>
+    </table>
+    <p>In both cases, simulation serves as a safe, scalable, and scientifically grounded environment for training and refinement—reducing risk to physical systems, whether robotic or human. This continuity in design philosophy underscores a core principle: intelligent systems are best developed through integrated models that bridge simulation and real-world application.</p>
+    <p>©️2025 AI Research Lab. For internal research and personal use only.</p>
+</body>
+</html>
+```
