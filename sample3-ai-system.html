@@ -185,7 +185,7 @@
     <p>All components operate <strong>on-device</strong> without internet, ensuring privacy, low latency, and autonomy.</p>
     <pre>system-design-diagram
 +------------------+     +-----------------------+     +------------------+
-|   User (Tablet)  |&lt;---&gt;| Python (Raspberry Pi): app.py        |&lt;--TCP--&gt;| Lisp(Raspberry Pi): ACT-R Model |
+|   User (Tablet)  |&lt;---&gt;| Python (Raspberry Pi): app.py|&lt;--TCP--&gt;| Lisp(Raspberry Pi): ACT-R Model |
 | - UI, Sensors    | HTTP| - Flask Server        |       | - DS-COG Agent   |
 |                  |     | - Sends state → gets  |       | - Simulates mind |
 |                  |     |   cognitive insight   |       | - Sends back prediction |
