@@ -1,0 +1,287 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ACT-R Declarative Memory: Probabilistic Retrieval & Activation Tutorial</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.7;
+      color: #2c3e50;
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3, h4 {
+      color: #1a5276;
+      margin-top: 1.5em;
+    }
+    h1 {
+      border-bottom: 3px solid #3498db;
+      padding-bottom: 15px;
+      font-size: 2.2em;
+    }
+    h2 {
+      border-left: 5px solid #2980b9;
+      padding-left: 12px;
+    }
+    code {
+      background-color: #f1f2f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 0.95em;
+      color: #c0392b;
+    }
+    pre {
+      background-color: #eef2f7;
+      padding: 18px;
+      border-radius: 8px;
+      border-left: 4px solid #3498db;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    pre code {
+      background-color: transparent;
+      color: #1a5276;
+      padding: 0;
+    }
+    .example {
+      background-color: #e8f4fc;
+      border: 1px solid #b3e5fc;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .equation {
+      background-color: #f0f8f0;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      margin: 18px 0;
+      border: 1px dashed #2ecc71;
+    }
+    blockquote {
+      border-left: 4px solid #bdc3c7;
+      padding-left: 18px;
+      margin: 20px 0;
+      color: #555;
+      font-style: italic;
+    }
+    ul, ol {
+      margin-bottom: 16px;
+    }
+    .footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #7f8c8d;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    .note {
+      background-color: #fffacd;
+      border: 1px solid #ffe484;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <h1>ACT-R Tutorial: Declarative Memory Module- Probabilistic Retrieval Depends On Activation Levels</h1>
+  <p><strong>Author:</strong> Athirah Nasrullah<br/>
+     <strong>Date:</strong> September 2025<br/>
+     <strong>Purpose:</strong> Technical onboarding guide for modeling human memory in ACT-R.</p>
+
+  <h2>1. Introduction</h2>
+  <p>In the ACT-R cognitive architecture, <strong>declarative memory</strong> stores factual knowledge as structured units called <em>chunks</em>. Unlike simple databases, ACT-R models human memory with psychological fidelity: retrieval is <strong>probabilistic</strong>, influenced by <strong>activation levels</strong>, and subject to noise and decay.</p>
+  
+  <p>This tutorial explains how declarative memory works in ACT-R, focusing on:</p>
+  <ul>
+    <li>The structure of chunks and declarative memory.</li>
+    <li>How activation determines retrieval success and latency.</li>
+    <li>Simulating probabilistic retrieval in a simple arithmetic task.</li>
+  </ul>
+
+  <h2>2. Chunks and Declarative Memory</h2>
+  <p>Each piece of factual knowledge is represented as a <strong>chunk</strong>, which instantiates a predefined <strong>chunk type</strong>. Chunks reside in long-term declarative memory and are accessed via the <code>retrieval</code> buffer.</p>
+
+  <h3>Example: Arithmetic Facts</h3>
+  <pre><code>(chunk-type arithmetic-fact
+  problem
+  answer)
+
+(chunk add-2-3
+  isa arithmetic-fact
+  problem (2 + 3)
+  answer 5)
+
+(chunk add-4-1
+  isa arithmetic-fact
+  problem (4 + 1)
+  answer 5)</code></pre>
+
+  <p>These chunks can be added to memory using <code>add-dm</code>:</p>
+  <pre><code>(add-dm 
+  add-2-3 
+  add-4-1)</code></pre>
+
+  <h2>3. Activation and Retrieval</h2>
+  <p>When a model attempts to retrieve a chunk, ACT-R computes an <strong>activation</strong> value for each matching chunk. Retrieval is probabilistic: the chunk with the highest activation is most likely to be retrieved, but noise and competition can lead to errors or delays.</p>
+
+  <h3>3.1 Base-Level Activation</h3>
+  <p>Each chunk has a <strong>base-level activation</strong> (<code>B_i</code>) that reflects its history of use. It increases with frequency and recency of exposure and decays over time. The formula is:</p>
+  <div class="equation">
+    B_i = ln(Σ t_j^{-d}) + B <br/>
+    where: <br/>
+    • t_j = time since j-th use of the chunk <br/>
+    • d = decay parameter (typically ~0.5) <br/>
+    • B = asymptotic value offset
+  </div>
+
+  <blockquote>
+    A fact like "2 + 3 = 5" that has been used frequently and recently will have higher base-level activation than a rarely used fact.
+  </blockquote>
+
+  <h3>3.2 Activation from Context (Associative Activation)</h3>
+  <p>Chunks also receive <strong>associative activation</strong> based on how well their content matches the current context (i.e., other chunks in buffers). This is computed as:</p>
+  <div class="equation">
+    A_i = B_i + Σ W_j * e^{-d * |S_j - S_i|} <br/>
+    where: <br/>
+    • W_j = weight of source chunk j <br/>
+    • S_j, S_i = spreading activation values <br/>
+    • d = decay parameter
+  </div>
+
+  <p>In practice, ACT-R automatically computes this when you specify retrieval requests with partial or full pattern matching.</p>
+
+  <h3>3.3 Retrieval Threshold and Noise</h3>
+  <p>The total activation <code>A_i</code> determines both <strong>whether</strong> a chunk is retrieved and <strong>how quickly</strong>:</p>
+  <ul>
+    <li>If <code>A_i &lt; threshold</code>, retrieval fails.</li>
+    <li>Response time is modeled as: <code>RT = F * exp(-A_i)</code></li>
+    <li>Stochastic noise is added to activation during retrieval.</li>
+  </ul>
+
+  <div class="note">
+    <strong>Key Parameters:</strong><br/>
+    • <code>:rt</code> – Base time for retrieval (default ~0.05 sec)<br/>
+    • <code>:ans</code> – Noise parameter (default ~0.25)<br/>
+    • <code>:lf</code> – Learning rate (controls decay)<br/>
+    • <code>:mp</code> – Maximum partial matching bonus
+  </div>
+
+  <h2>4. Simulating Probabilistic Retrieval</h2>
+  <p>Let’s build a model that retrieves arithmetic facts. We’ll simulate how activation affects retrieval success over time.</p>
+
+  <h3>Complete Model Code</h3>
+  <pre><code>; Load ACT-R
+(load "act-r/load-act-r.lisp")
+
+; Define chunk type
+(chunk-type arithmetic-fact problem answer)
+
+; Add facts to declarative memory
+(add-dm 
+  (fact-2+3 isa arithmetic-fact problem (2 + 3) answer 5)
+  (fact-4+1 isa arithmetic-fact problem (4 + 1) answer 5)
+  (fact-7-2 isa arithmetic-fact problem (7 - 2) answer 5))
+
+; Set retrieval threshold to make failures possible
+(set-parameter-value :retrieval-threshold 0.5)
+
+; Goal buffer: current problem to solve
+(chunk-type goal problem status)
+
+; Initial goal
+(goal-focus (isa goal problem (2 + 3) status solve))
+
+; Production: Start retrieval
+(P retrieve-answer
+   =goal>
+     isa goal
+     problem =prob
+     status solve
+   ==>
+   =goal>
+     status retrieving
+   +retrieval>
+     isa arithmetic-fact
+     problem =prob)
+
+; Production: Successful retrieval
+(P succeed
+   =goal>
+     isa goal
+     status retrieving
+   =retrieval>
+     isa arithmetic-fact
+     answer =ans
+   ==>
+   =goal>
+     status done
+   !output! ("Retrieved answer: " =ans))
+
+; Production: Failed retrieval
+(P fail
+   =goal>
+     isa goal
+     status retrieving
+   =retrieval>
+     error
+   ==>
+   =goal>
+     status failed
+   !output! ("Retrieval failed. Try again later."))
+
+; Run the model for up to 5 seconds
+(run 5)</code></pre>
+
+  <h3>Expected Behavior</h3>
+  <div class="example">
+    <strong>Run 1:</strong> "Retrieved answer: 5" (fast, if activation is high)<br/>
+    <strong>Run 2:</strong> "Retrieval failed..." (if activation decays or noise interferes)<br/>
+    <strong>Variability:</strong> Response time and success rate will vary across runs due to subsymbolic noise.
+  </div>
+
+  <h2>5. Observing Activation in Real Time</h2>
+  <p>You can inspect a chunk’s current activation using:</p>
+  <pre><code>(print-activation fact-2+3)</code></pre>
+
+  <p>To monitor retrieval attempts:</p>
+  <pre><code>(trace-on retrieval)</code></pre>
+
+  <p>This will show in the console whether retrieval succeeded, failed, or matched partially.</p>
+
+  <h2>6. Practical Tips for Modeling</h2>
+  <ul>
+    <li><strong>Calibrate parameters</strong> using empirical data (e.g., human response times).</li>
+    <li><strong>Use partial matching</strong> to simulate retrieval from incomplete cues.</li>
+    <li><strong>Model learning</strong> by presenting facts multiple times—activation increases with practice.</li>
+    <li><strong>Validate</strong> your model by comparing retrieval accuracy and latency to human data.</li>
+  </ul>
+
+  <h2>7. Conclusion</h2>
+  <p>ACT-R’s declarative memory system provides a psychologically plausible model of human memory retrieval. By combining base-level and associative activation with noise and thresholds, it captures key phenomena such as:</p>
+  <ul>
+    <li>Forgetting over time</li>
+    <li>Primacy and recency effects</li>
+    <li>Interference between similar memories</li>
+    <li>Speed-accuracy tradeoffs</li>
+  </ul>
+  <p>Mastery of activation dynamics is essential for building realistic cognitive models in AI research, education, and human-computer interaction.</p>
+
+  <div class="footer">
+    © 2025 AI Research Lab. For internal training and documentation purposes.
+  </div>
+</body>
+</html>
+```
