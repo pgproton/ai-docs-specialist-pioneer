@@ -5,7 +5,7 @@ Welcome!
 This portfolio showcases my professional background, education and sample technical documentations.
 
 ##### Repository Structure 
-ai-docs-specialist-pioneer.github.io/<br>
+
 ├── images/<br>
 ++++├── mockup.png<br>
 ++++├── smileyface.png<br>
