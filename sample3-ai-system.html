@@ -54,7 +54,7 @@
             background-color: #f2f2f2;
         }
         img {
-            max-width: 100%;
+            max-width: 300px;
             height: auto;
             border: 1px solid #ddd;
             margin: 10px 0;
@@ -82,19 +82,25 @@
             padding: 2px 5px;
             border-radius: 3px;
         }
-        .resizeleft {
-            float: left;
-            width: 300px;
-            height: auto;
-            border: 1px solid #ccc;
-            margin-right: 10px;
+        .line {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
         }
-       .resizeright {
-            float: right;
-            width: 300px;
-            height: auto;
-            border: 1px solid #ccc;
-            margin-left: 10px;
+
+         /* Odd lines: text right, image left (default) */
+       .line:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        /* Even lines: image right, text left */
+       .line:nth-child(even) {
+            flex-direction: row;
+        }
+
+       .text {
+            flex: 1;
         }
         
     </style>
@@ -111,39 +117,37 @@
     <p>This document presents the first part of the complete integrated technical blueprint of the system that combines insights from <strong>computational cognitive science</strong>, <strong>artificial intelligence</strong>, and <strong>human-centered design</strong>.</p>
     <hr>
     <h2><strong>1.1🌟 Real-world example: "MyDay Assistant"</strong></h2>
-    <!-- Row 1: Image on left, text on right -->
-  <div style="overflow: hidden;">
-    <img src="images/mockup.png" class="resizeleft" alt="">
-    <em>Imagine</em> a tablet-based AI named <strong>"MyDay"</strong>:
+    
+  <div>
+  <div class="line">
+    <div class="text"><em>Imagine</em> a tablet-based AI named <strong>"MyDay"</strong>:</div>
+    <img src="images/mockup.png" alt="" >
   </div>
 
-  <!-- Row 2: Text on left, image on right -->
-  <div style="overflow: hidden;">
-    ▪️ <em>Alex (24, DS) wakes up. <br>MyDay says (with a smiley face):</em><br>
-      <em>"Good morning! Time to get dressed. <br>Tap when done."</em>
-    <img src="images/smileyface.png" class="resizeright" alt="">
+  <div class="line">
+    <div class="text">▪️ <em>Alex (24, DS) wakes up. <br>MyDay says (with a smiley face):</em><br>
+      <em>"Good morning! Time to get dressed. <br>Tap when done."</em></div>
+    <img src="images/smileyface.png" alt="" >
   </div>
 
-  <!-- Row 3: Image on left, text on right -->
-  <div style="overflow: hidden;">
-    <img src="images/correction-prompt.png" class="resizeleft" alt="">
-    ▪️ <em>Alex starts putting on pants, <br>but reaches for socks next.<br>
-      MyDay shows a short video:<br> "Pants → shirt → jacket → socks".</em>
+  <div class="line">
+    <div class="text">▪️ <em>Alex starts putting on pants, <br>but reaches for socks next.<br>
+      MyDay shows a short video:<br> "Pants → shirt → jacket → socks".</em></div>
+    <img src="images/correction-prompt.png" alt="">
   </div>
 
-  <!-- Row 4: Text on left, image on right -->
-  <div style="overflow: hidden;">
-    ▪️ <em>At the bus stop, Alex looks confused.<br>
-      MyDay says: "Bus #7 is coming in 2 minutes. <br>Show your pass when driver says 'Hi'."</em>
-    <img src="images/bus.png" class="resizeright" alt="">
+  <div class="line">
+    <div class="text">▪️ <em>At the bus stop, Alex looks confused.<br>
+      MyDay says: "Bus #7 is coming in 2 minutes. <br>Show your pass when driver says 'Hi'."</em></div>
+    <img src="images/bus.png" alt="">
   </div>
 
-  <!-- Row 5: Image on left, text on right -->
-  <div style="overflow: hidden;">
-    <img src="images/comforting.png" class="resizeleft" alt="">
-    ▪️ <em>Later, Alex feels overwhelmed. <br>MyDay detects rapid speech<br>
-      and suggests:<br> "Want to listen to your favorite song?"</em>
+<div class="line">
+    <div class="text">▪️ <em>Later, Alex feels overwhelmed. <br>MyDay detects rapid speech<br>
+      and suggests:<br> "Want to listen to your favorite song?"</em></div>
+    <img src="images/comforting.png" alt="">
   </div>
+</div>
 
   <!-- Final paragraph -->
   <p>Over time, MyDay learns Alex’s rhythms and <strong>fades support</strong> as independence grows.</p>
