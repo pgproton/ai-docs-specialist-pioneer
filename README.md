@@ -13,7 +13,7 @@ ai-docs-specialist-pioneer.github.io/<br>
 ++++├── bus.png<br>
 ++++└── comforting.png<br>                               
 ├── README.MD                    👈 You are here<br>
-├── main.html                    # portfolio homepage<br>
+├── index.html                    # portfolio homepage<br>
 ├── sample1-onboarding-guide.html<br>
 ├── sample2-tutorial.html<br>
 └── sample3-ai-system.html<br>
