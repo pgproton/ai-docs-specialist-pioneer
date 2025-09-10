@@ -1,0 +1,367 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Writer Portfolio - AI Research Lab</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #9b59b6;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        nav {
+            background-color: var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 20px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary-color);
+            display: inline-block;
+        }
+        
+        .section-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-content {
+            line-height: 1.8;
+        }
+        
+        .about-content p {
+            margin-bottom: 1rem;
+            text-indent: 2rem;
+        }
+        
+        .education-item, .experience-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .education-item:last-child, .experience-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .item-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.3rem;
+        }
+        
+        .item-subtitle {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-date {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .sample-writing {
+            background-color: var(--light-color);
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .sample-title {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .sample-content {
+            margin-bottom: 0.5rem;
+        }
+        
+        .read-more {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            nav ul li a {
+                padding: 1rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            section {
+                padding: 2rem 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Athirah Nasrullah</h1>
+            <p class="subtitle">AI Technical Writer | AI Documentation Specialist | AI Research Lab</p>
+            <p>Translating complex AI concepts into accessible internal documentation</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="#about"><i class="fas fa-user"></i> About Me</a></li>
+                <li><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="#experience"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="#writings"><i class="fas fa-file-alt"></i> Sample Writings</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section id="about">
+        <h2><i class="fas fa-user"></i> About Me</h2>
+        <div class="section-content">
+            <p>Among the few Malaysian pioneers in AI. Graduated with a BSc in AI in 2014 under the government's prestigious sponsorship program: Ivy League & Ivy League Standard Universities. Technical writing and documentation were necessary for almost every assignment and every project throughout my studies. Every submission must comply with a certain standard: translating complex informatics concepts into clear, accessible documentation for researchers, engineers, and developers. </p><p>An ongoing, recurring cybersecurity issue has led me to an extended hiatus from AI programming, repeatedly compromising my devices and rendering them unusable. Without reliable access to functional equipment, programming has not been feasible. While attempting to secure and recover my system amid persistent cybersecurity threats, I lost access to all my files and prior work. This situation has forced me to take on work outside my field of expertise, but those roles have proven unsustainable—technology remains my core strength and area of passion.</p><p>My first professional role was as a Celcom dealer in early 2008, without an SPM certificate. As a dealer in tech industry, developing strong understanding of contemporary software and hardware were necessary to effectively communicate product features and benefits to customers and clients. </p><p>    Prior to this role, I had already begun self-taught front-end development starting in late 2005, and expanded into back-end programming by late 2007—until my growing professional commitments required my full attention. Following this experience, I pursued formal education in the Foundation of Physical Sciences, and subsequently continued my academic journey abroad, specializing in AI.</p><p>After graduation, in late 2014, my second professional role was as an AI engineer at an electronics manufacturing factory, assigned by the government to integrate AI into industrial processes. However, at the time, AI was still largely misunderstood and underappreciated within the organization. I was not provided with a computer and access to source code repository. Instead of contributing to technical development, I was often directed to the production floor to observe operators perform their tasks. My role became largely observational. In response, I focused on self-directed research—studying Industrial Revolution 4.0 frameworks and exploring how AI could be effectively applied in smart manufacturing—laying the groundwork for future opportunities in intelligent industrial systems.</p>
+<p>Despite ongoing cybersecurity challenges and an extended hiatus from active development, I am now seeking a technical writing role in the AI field, where I can contribute to the clear, accurate, and accessible documentation that drives innovation. My passion remains unchanged: to apply AI in the areas where it is needed most—particularly in empowering individuals with mental and physical disabilities through assistive AI technologies. This is both my mission and vision for the future.</p>
+        </div>
+    </section>
+    
+    <section id="education">
+        <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+        <div class="section-content">
+            <div class="education-item">
+                <span class="item-date">2010 - 2014</span>
+                <h3 class="item-subtitle">Bachelor of Science in Artificial Intelligence</h3>
+                <p class="item-title">School of Informatics,University of Edinburgh, UK</p>
+                <p>🔸Graduated with a 3rd class degree.</p>
+<p> 🔸🏆Awarded Google Prize for a group project: Robot Football. Contributed in building the physical robot. Documented the robot simulation.</p>
+<p>🔸 Developed skills required  to develop complete AI models (data entry, data analysis, multiple programming languages especially Python, various mathematical AI algorithms)</p>
+<p>🔸 All academic work required rigorous technical documentation standards.</p>
+<p>🔸plenty of exposure to tech industry: took part in many tech talks and hackathons conducted by tech giants such as Google,Apple throughout university years</p>
+            </div>
+            
+            <div class="education-item">
+                <span class="item-date">2008 - 2009</span>
+                <h3 class="item-subtitle">Foundation in Physical Sciences</h3>
+                <p class="item-title">Universiti Malaya</p>
+                <p>🔸CGPA : 3.89</p>
+ <p>🔸 Computer Science: C Programming Language, Mathematics , Physics, Chemistry. </p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="experience">
+        <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+        <div class="section-content">
+            <div class="experience-item">
+                <span class="item-date"> October 2014 - November 2014</span>
+                <h3 class="item-subtitle">AI Engineer</h3>
+                <p class="item-title">Jabil, Penang, Malaysia</p>
+                <p>🔸Government-assigned role to integrate AI into electronics manufacturing processes.</p>
+<p>🔸Despite lack of resources and limited access to development tools, conducted research on Industrial Revolution 4.0</p>
+            </div>
+            
+            <div class="experience-item">
+                <span class="item-date">January 2008 - February 2008</span>
+                <h3 class="item-subtitle">Celcom Dealer</h3>
+                <p class="item-title">Celcom Authorized Dealer, Malaysia</p>
+                <p>🔸Provided technical expertise and product knowledge for telecommunications equipments.(portable broadbands, software setup, mobile phones, tech gadgets)</p>
+<p>🔸Developed skills in explaining complex technological features to non-technical customers and clients</p>
+<p>🔸Gained practical understanding of contemporary hardware and software ecosystems in the consumer technology market.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="writings">
+        <h2><i class="fas fa-file-alt"></i> Sample Writings</h2>
+        <div class="section-content">
+            <div class="sample-writing">
+                <h3 class="sample-title">Onboarding and Reference Guide to the ACT-R framework</h3>
+                <p class="sample-content">This guide serves as an onboarding resource for new team members, offering a structured overview of ACT-R’s core components, syntax, and best practices for model development within an AI research context.</p>
+                <a href="https://chat.qwen.ai/s/deploy/4ceedd7c-445f-4152-b070-9cb1b632d95f" class="read-more">Read full document →</a>
+            </div>
+            
+            <div class="sample-writing">
+                <h3 class="sample-title">ACT-R Tutorial Guide: Declarative Memory Module - Probabilistic Retrieval Depends On Activation Levels</h3>
+                <p class="sample-content">Technical onboarding guide for modeling human memory in ACT-R.</p>
+                <a href="https://chat.qwen.ai/s/deploy/6b7ca35b-b834-4faf-ac67-9f5b0bbc3319" class="read-more">Read full document →</a>
+            </div>
+            
+            <div class="sample-writing">
+                <h3 class="sample-title">Accessibility in AI: Designing for Users with Disabilities</h3>
+                <p class="sample-content">Research paper exploring how artificial intelligence can be leveraged to create more accessible technology for individuals with various disabilities. Covers voice interfaces, image recognition for visually impaired users, and adaptive learning systems.</p>
+                <a href="#" class="read-more">Read full document →</a>
+            </div>
+            
+            <div class="sample-writing">
+                <h3 class="sample-title">Industry 4.0: The Role of Artificial Intelligence in Smart Manufacturing</h3>
+                <p class="sample-content">Detailed analysis of how AI technologies are transforming manufacturing processes. Examines case studies, implementation challenges, and future trends in intelligent production systems.</p>
+                <a href="#" class="read-more">Read full document →</a>
+            </div>
+            
+            <div class="sample-writing">
+                <h3 class="sample-title">Natural Language Processing: Fundamentals and Applications</h3>
+                <p class="sample-content">Educational resource explaining core concepts of NLP, from tokenization to transformer models. Designed for engineers and developers new to the field, with practical examples and implementation guidance.</p>
+                <a href="#" class="read-more">Read full document →</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="header-content">
+            <h3>Athirah Nasrullah</h3>
+            <p>Technical Writer | AI Documentation Specialist | AI Research Lab</p>
+            <div class="social-links">
+                <a href="mailto:athirahproton@proton.me"><i class="fas fa-envelope"></i></a>
+                <a href="mailto:ayawaiyay@gmail.com"><i class="fab fa-google"></i></a>
+                <a href="https://github.com/pgproton" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+            <p>&copy; 2025 Athirah Nasrullah. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+```
